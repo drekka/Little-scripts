@@ -1,0 +1,3 @@
+# Carthage dependencies used for testing.
+
+github "erikdoe/ocmock"
