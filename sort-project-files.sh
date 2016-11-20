@@ -25,12 +25,12 @@
 
 # Derek Clarkson, Dec 2013 - Modifed to handle multiple project files in the commit.
 
-echo "pre-commit pysock script start"
+echo "Sorting project files which have been changed ..."
 
 temp_file_name="sock_temp_file_which_will_be_deleted_automatically"
 script_name="External/SOCK/pysock/sock.py"
 
-######## Getting staged files paths and dumping to file
+# COpy the names of all changed files into the temp file
 git diff --name-only --cached >> $temp_file_name
 
 ######## Looking for path of project.pbxproj file
@@ -47,4 +47,3 @@ done <"$file"
 ######## Cleaning up the file
 rm $temp_file_name
 
-echo "pre-commit pysock script end"
