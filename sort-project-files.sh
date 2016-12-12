@@ -27,23 +27,7 @@
 
 echo "Sorting project files which have been changed ..."
 
-temp_file_name="sock_temp_file_which_will_be_deleted_automatically"
 script_name="External/SOCK/pysock/sock.py"
 
-# COpy the names of all changed files into the temp file
-git diff --name-only --cached >> $temp_file_name
-
-######## Looking for path of project.pbxproj file
-file="$temp_file_name"
-while read line 
-do
-	if [[ $line =~ .*project.pbxproj.* ]]; then
-		echo "Sorting project file $line"
-		python $script_name "$line"
-		git add "$line"
-	fi
-done <"$file"
-
-######## Cleaning up the file
-rm $temp_file_name
-
+# Find all changed and stages files, then find the project files, then ignore carthage check outs, pipe through xargs to get each file then sort it.
+git diff --name-only --cached | grep project.pbxproj$ | grep -v Carthage/Checkouts | xargs python $script_name
