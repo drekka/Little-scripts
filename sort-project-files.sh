@@ -1,33 +1,17 @@
-# The MIT License (MIT)
-#
-# Copyright (c) 2013 
-#     Tomasz Netczuk (netczuk.tomasz at gmail.com)
-#     Dariusz Seweryn (dariusz.seweryn at gmail.com)
-#     https://github.com/neciu/SOCK
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
 
-# Derek Clarkson, Dec 2013 - Modifed to handle multiple project files in the commit.
+# XCode writes the project file in an unsorted fashion on any change to the project. This can make mergese extremely difficult. Sorting the project file's contents removes a large amount of merge issues. 
+
 
 echo "Sorting project files which have been changed ..."
 
 script_name="External/SOCK/pysock/sock.py"
 
-# Find all changed and stages files, then find the project files, then ignore carthage check outs, pipe through xargs to get each file then sort it.
-git diff --name-only --cached | grep project.pbxproj$ | grep -v Carthage/Checkouts | xargs python $script_name
+# Process:
+#    1. Find all changed and stages files
+#    2. Filter for project files
+#    3. Ignore the carthage check out directory
+#    4. Pipe through xargs and sort the files contents
+
+git diff --name-only --cached | grep project\.pbxproj$ | grep -v Carthage/Checkouts | xargs python $script_name
+
+echo "Done."
